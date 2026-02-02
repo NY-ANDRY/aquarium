@@ -1,0 +1,17 @@
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/AquariumApplication.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/config/GlobalModelAttributes.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/config/WebConfig.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Aliment.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/AlimentNutrient.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Aquarium.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/CashFlow.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Feed.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Fish.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/FishDailyFeed.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/FishDailyNutrient.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Flow.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Nutrient.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Period.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Race.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/RaceNutrient.java
+/home/nyandry/Projects/aquarium/src/main/java/com/aquarium/models/tables/Supply.java

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html layout:decorate="~{admin/layout/layout}">
+
+<head>
+    <title>Products</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content" class="flex gap-8 max-h-full overflow-hidden">
+
+        <div class="flex flex-col flex-1 max-h-full overflow-auto overflow-y-auto">
+
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-xl font-[figtree-m]">Products</h1>
+                <div class="flex gap-2">
+                    <form action="/admin/products" method="get" class="flex gap-2">
+                        <select name="categoryId" class="select select-sm select-bordered font-[figtree]">
+                            <option value="">All Categories</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}" th:selected="${category.id == categoryId}">Category</option>
+                        </select>
+                        <select name="typeId" class="select select-sm select-bordered font-[figtree]">
+                            <option value="">All Types</option>
+                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"
+                                th:selected="${type.id == typeId}">Type</option>
+                        </select>
+                        <select name="colorId" class="select select-sm select-bordered font-[figtree]">
+                            <option value="">All Colors</option>
+                            <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"
+                                th:selected="${color.id == colorId}">Color</option>
+                        </select>
+                        <select name="sizeId" class="select select-sm select-bordered font-[figtree]">
+                            <option value="">All Sizes</option>
+                            <option th:each="size : ${sizes}" th:value="${size.id}" th:text="${size.name}"
+                                th:selected="${size.id == sizeId}">Size</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-accent border-neutral-200">Filter</button>
+                    </form>
+                    <a href="/admin/products" class="btn btn-primary btn-sm">Create New</a>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto bg-base-100 rounded-box shadow-md border border-neutral-100">
+                <table class="table w-full">
+                    <!-- head -->
+                    <thead>
+                        <tr class="font-[figtree-m] uppercase text-xs opacity-60">
+                            <th>Product</th>
+                            <th>Location Price</th>
+                            <th>Size & Color</th>
+                            <th>Color & Size</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- row 1 -->
+                        <tr th:each="product : ${products}" class="hover:bg-neutral-50 transition-colors">
+                            <td>
+                                <div class="flex items-center gap-3">
+                                    <div class="avatar">
+                                        <div class="mask mask-squircle h-12 w-12 shadow-sm">
+                                            <img th:src="${product.image != null ? product.image : 'https://img.daisyui.com/images/profile/demo/2@94.webp'}"
+                                                alt="Product Image" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold font-[figtree-m]">
+                                            <a th:href="@{/admin/products/{id}(id=${product.id})}">
+                                                <span th:text="${product.name}">Product Name</span>
+                                            </a>
+                                        </div>
+                                        <div class="text-sm opacity-50 font-[figtree]" th:text="${product.model.name}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex" th:text="${product.location + ' Ar'}"></div>
+                            </td>
+                            <td class="font-[figtree]">
+                                <div class="flex flex-wrap gap-1">
+                                    <div class="badge badge-sm badge-soft font-[figtree] "
+                                        th:each="variant : ${product.variants}"
+                                        th:classappend="${variant.id == product.id} ? ' badge-primary' : ' badge-ghost'">
+                                        <span th:text="${variant.color.name}"></span>
+                                        <span th:text="${variant.size.name}"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="font-[figtree]">
+                                <div class="flex justify-end items-center gap-2 w-full">
+                                    <a th:href="@{/admin/products/{id}(id=${product.id})}"
+                                        class="btn btn-sm btn border-neutral-100 text-neutral-700">
+                                        View
+                                    </a>
+                                    <a th:href="@{/admin/products/{id}/edit(id=${product.id})}"
+                                        class="btn btn-sm btn border-neutral-100 text-neutral-700">
+                                        edit
+                                    </a>
+                                    <form th:action="@{/admin/products/{id}/delete(id=${product.id})}" method="post"
+                                        onsubmit="return confirm('Etes vous sur de vouloir supprimer ?')">
+                                        <button type="submit"
+                                            class="btn btn-sm border-neutral-100 text-neutral-700 text-error">delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- foot -->
+                    <tfoot class="bg-neutral-50/50">
+                        <tr class="font-[figtree-m] uppercase text-xs opacity-60">
+                            <th>Product</th>
+                            <th>Model & Size</th>
+                            <th>
+                                <div class="flex justify-end items-center gap-2 w-full">
+                                    Actions
+                                </div>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="flex"></div>
+
+        </div>
+
+        <div class="flex flex-col px-2 max-h-full overflow-auto overflow-y-auto">
+            <div th:replace="~{admin/products/createInner :: div}"></div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
