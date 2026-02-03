@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "t_fish_daily_feed")
+@Table(name = "t_fish_daily_feeds")
 public class FishDailyFeed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

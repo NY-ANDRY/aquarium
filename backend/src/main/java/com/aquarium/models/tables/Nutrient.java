@@ -25,4 +25,7 @@ public class Nutrient {
 
     @OneToMany(mappedBy = "nutrient")
     private List<AlimentNutrient> alimentNutrients;
+
+    @OneToMany(mappedBy = "race")
+    private List<RaceNutrient> raceNutrients;
 }

@@ -33,5 +33,8 @@ public class Race {
     private double increaseCapacity;
 
     @OneToMany(mappedBy = "race")
+    private List<RaceNutrient> raceNutrients;
+
+    @OneToMany(mappedBy = "race")
     private List<Fish> fish;
 }
