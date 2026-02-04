@@ -16,18 +16,47 @@ public class FishDailyNutrient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "qtt", nullable = true)
-    private double qtt;
-
-    @Column(name = "increase_weight", nullable = true)
-    private double increaseWeight;
-
     @ManyToOne
     @JoinColumn(name = "id_nutrient")
     private Nutrient nutrient;
 
+    @Column(name = "qtt", nullable = true)
+    private double qtt;
+
     @ManyToOne
-    @JoinColumn(name = "id_fish_daily_feed")
-    private FishDailyFeed fishDailyFeed;
+    @JoinColumn(name = "id_fish_daily_Aliment")
+    private FishDailyAliment fishDailyAliment;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Nutrient getNutrient() {
+        return nutrient;
+    }
+
+    public void setNutrient(Nutrient nutrient) {
+        this.nutrient = nutrient;
+    }
+
+    public double getQtt() {
+        return qtt;
+    }
+
+    public void setQtt(double qtt) {
+        this.qtt = qtt;
+    }
+
+    public FishDailyAliment getFishDailyAliment() {
+        return fishDailyAliment;
+    }
+
+    public void setFishDailyAliment(FishDailyAliment fishDailyAliment) {
+        this.fishDailyAliment = fishDailyAliment;
+    }
 
 }

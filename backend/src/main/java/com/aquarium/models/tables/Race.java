@@ -37,4 +37,69 @@ public class Race {
 
     @OneToMany(mappedBy = "race")
     private List<Fish> fish;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(double purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(double salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public double getMaxWeight() {
+        return maxWeight;
+    }
+
+    public void setMaxWeight(double maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
+    public double getIncreaseCapacity() {
+        return increaseCapacity;
+    }
+
+    public void setIncreaseCapacity(double increaseCapacity) {
+        this.increaseCapacity = increaseCapacity;
+    }
+
+    public List<RaceNutrient> getRaceNutrients() {
+        return raceNutrients;
+    }
+
+    public void setRaceNutrients(List<RaceNutrient> raceNutrients) {
+        this.raceNutrients = raceNutrients;
+    }
+
+    public List<Fish> getFish() {
+        return fish;
+    }
+
+    public void setFish(List<Fish> fish) {
+        this.fish = fish;
+    }
+
 }

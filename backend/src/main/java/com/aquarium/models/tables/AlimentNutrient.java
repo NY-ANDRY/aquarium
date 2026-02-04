@@ -26,4 +26,36 @@ public class AlimentNutrient {
     @ManyToOne
     @JoinColumn(name = "id_nutrient")
     private Nutrient nutrient;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getIntake() {
+        return intake;
+    }
+
+    public void setIntake(double intake) {
+        this.intake = intake;
+    }
+
+    public Aliment getAliment() {
+        return aliment;
+    }
+
+    public void setAliment(Aliment aliment) {
+        this.aliment = aliment;
+    }
+
+    public Nutrient getNutrient() {
+        return nutrient;
+    }
+
+    public void setNutrient(Nutrient nutrient) {
+        this.nutrient = nutrient;
+    }
 }

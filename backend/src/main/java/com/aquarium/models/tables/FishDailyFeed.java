@@ -20,14 +20,8 @@ public class FishDailyFeed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "increase")
-    private double increase;
-
-    @Column(name = "begin_weight")
-    private double beginWeight;
-
-    @Column(name = "end_weight")
-    private double endWeight;
+    @Column(name = "increase_weight")
+    private double increaseWeight;
 
     @ManyToOne
     @JoinColumn(name = "id_fish")
@@ -37,5 +31,46 @@ public class FishDailyFeed {
     private LocalDateTime date;
 
     @OneToMany(mappedBy = "fishDailyFeed")
-    private List<FishDailyNutrient> fishDailyNutrient;
+    private List<FishDailyAliment> fishDailyAliments;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getIncreaseWeight() {
+        return increaseWeight;
+    }
+
+    public void setIncreaseWeight(double increaseWeight) {
+        this.increaseWeight = increaseWeight;
+    }
+
+    public Fish getFish() {
+        return fish;
+    }
+
+    public void setFish(Fish fish) {
+        this.fish = fish;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public List<FishDailyAliment> getFishDailyAliments() {
+        return fishDailyAliments;
+    }
+
+    public void setFishDailyAliments(List<FishDailyAliment> fishDailyAliments) {
+        this.fishDailyAliments = fishDailyAliments;
+    }
+
 }

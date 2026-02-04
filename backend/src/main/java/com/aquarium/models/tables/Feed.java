@@ -26,4 +26,37 @@ public class Feed {
     @ManyToOne
     @JoinColumn(name = "id_supply")
     private Supply supply;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getQtt() {
+        return qtt;
+    }
+
+    public void setQtt(double qtt) {
+        this.qtt = qtt;
+    }
+
+    public Aliment getAliment() {
+        return aliment;
+    }
+
+    public void setAliment(Aliment aliment) {
+        this.aliment = aliment;
+    }
+
+    public Supply getSupply() {
+        return supply;
+    }
+
+    public void setSupply(Supply supply) {
+        this.supply = supply;
+    }
+
 }

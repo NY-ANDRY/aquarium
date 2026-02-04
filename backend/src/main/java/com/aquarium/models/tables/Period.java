@@ -29,4 +29,45 @@ public class Period {
 
     @OneToMany(mappedBy = "period")
     private List<Aquarium> aquariums;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDateTime getBegin() {
+        return begin;
+    }
+
+    public void setBegin(LocalDateTime begin) {
+        this.begin = begin;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    public List<Aquarium> getAquariums() {
+        return aquariums;
+    }
+
+    public void setAquariums(List<Aquarium> aquariums) {
+        this.aquariums = aquariums;
+    }
+
 }

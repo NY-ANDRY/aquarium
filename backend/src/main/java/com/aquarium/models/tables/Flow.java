@@ -25,4 +25,37 @@ public class Flow {
 
     @OneToMany(mappedBy = "flow")
     private List<CashFlow> cashFlow;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getFlow() {
+        return flow;
+    }
+
+    public void setFlow(int flow) {
+        this.flow = flow;
+    }
+
+    public List<CashFlow> getCashFlow() {
+        return cashFlow;
+    }
+
+    public void setCashFlow(List<CashFlow> cashFlow) {
+        this.cashFlow = cashFlow;
+    }
+
 }

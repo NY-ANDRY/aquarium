@@ -32,4 +32,45 @@ public class Supply {
 
     @OneToMany(mappedBy = "supply")
     private List<Feed> feeds;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getBegin() {
+        return begin;
+    }
+
+    public void setBegin(LocalDateTime begin) {
+        this.begin = begin;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    public Aquarium getAquarium() {
+        return aquarium;
+    }
+
+    public void setAquarium(Aquarium aquarium) {
+        this.aquarium = aquarium;
+    }
+
+    public List<Feed> getFeeds() {
+        return feeds;
+    }
+
+    public void setFeeds(List<Feed> feeds) {
+        this.feeds = feeds;
+    }
+
 }

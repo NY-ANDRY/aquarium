@@ -26,6 +26,72 @@ public class Nutrient {
     @OneToMany(mappedBy = "nutrient")
     private List<AlimentNutrient> alimentNutrients;
 
-    @OneToMany(mappedBy = "race")
+    @OneToMany(mappedBy = "nutrient")
     private List<RaceNutrient> raceNutrients;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public List<AlimentNutrient> getAlimentNutrients() {
+        return alimentNutrients;
+    }
+
+    public void setAlimentNutrients(List<AlimentNutrient> alimentNutrients) {
+        this.alimentNutrients = alimentNutrients;
+    }
+
+    public List<RaceNutrient> getRaceNutrients() {
+        return raceNutrients;
+    }
+
+    public void setRaceNutrients(List<RaceNutrient> raceNutrients) {
+        this.raceNutrients = raceNutrients;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Nutrient other = (Nutrient) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
 }
