@@ -13,8 +13,8 @@ tables=(
 "t_flows"
 "t_nutrients"
 "t_periods"
-"t_races"
-"t_races_nutrients" 
+"t_species"
+"t_species_nutrients" 
 "t_supplies"
 )
 

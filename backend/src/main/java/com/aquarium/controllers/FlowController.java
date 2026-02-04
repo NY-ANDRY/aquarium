@@ -17,7 +17,7 @@ import com.aquarium.dto.FlowDTO;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/flow")
+@RequestMapping("/api/flows")
 public class FlowController {
     private final FlowService service;
     private final FlowMapper mapper;

@@ -17,7 +17,7 @@ import com.aquarium.dto.FishDailyFeedDTO;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/fishdailyfeed")
+@RequestMapping("/api/fishdailyfeeds")
 public class FishDailyFeedController {
     private final FishDailyFeedService service;
     private final FishDailyFeedMapper mapper;

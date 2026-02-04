@@ -27,7 +27,7 @@ public class Nutrient {
     private List<AlimentNutrient> alimentNutrients;
 
     @OneToMany(mappedBy = "nutrient")
-    private List<RaceNutrient> raceNutrients;
+    private List<SpeciesNutrient> speciesNutrients;
 
     public Long getId() {
         return id;
@@ -61,12 +61,12 @@ public class Nutrient {
         this.alimentNutrients = alimentNutrients;
     }
 
-    public List<RaceNutrient> getRaceNutrients() {
-        return raceNutrients;
+    public List<SpeciesNutrient> getSpeciesNutrients() {
+        return speciesNutrients;
     }
 
-    public void setRaceNutrients(List<RaceNutrient> raceNutrients) {
-        this.raceNutrients = raceNutrients;
+    public void setSpeciesNutrients(List<SpeciesNutrient> speciesNutrients) {
+        this.speciesNutrients = speciesNutrients;
     }
 
     @Override

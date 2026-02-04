@@ -14,14 +14,14 @@ import com.aquarium.models.tables.FishDailyFeed;
 import com.aquarium.models.tables.FishDailyLog;
 import com.aquarium.models.tables.FishDailyNutrient;
 import com.aquarium.models.tables.Nutrient;
-import com.aquarium.models.tables.Race;
+import com.aquarium.models.tables.Species;
 
 @Service
 @RequiredArgsConstructor
 public class FishService {
     private final FishRepository repository;
     private final AlimentService alimentService;
-    private final RaceService raceService;
+    private final SpeciesService speciesService;
     private final FishDailyFeedService fishDailyFeedService;
     private final FishDailyAlimentService fishDailyAlimentService;
     private final FishDailyNutrientService fishDailyNutrientService;
@@ -42,7 +42,7 @@ public class FishService {
 
     public void process(FishDailyFeed fdf) {
         Fish fish = fdf.getFish();
-        Race race = fish.getRace();
+        Species species = fish.getSpecies();
         List<FishDailyAliment> fdas = fdf.getFishDailyAliments();
         LocalDateTime datetime = fdf.getDate();
 
@@ -50,8 +50,8 @@ public class FishService {
             alimentService.putNutriment(fda);
         }
 
-        List<Nutrient> nutrients = raceService.usedNutrients(race);
-        double subIncWeight = race.getIncreaseCapacity() / nutrients.size();
+        List<Nutrient> nutrients = speciesService.usedNutrients(species);
+        double subIncWeight = species.getIncreaseCapacity() / nutrients.size();
         double increase_weight = 0;
 
         for (Nutrient nutrient : nutrients) {
@@ -60,7 +60,7 @@ public class FishService {
 
             double nutrientWeight = newNutrientWeight + restNutrientWeight;
 
-            double subQttDouble = nutrientWeight / raceService.need(race, nutrient);
+            double subQttDouble = nutrientWeight / speciesService.need(species, nutrient);
             int subQtt = (int) Math.floor(subQttDouble);
 
             double weightValue = subIncWeight * subQtt;
@@ -93,8 +93,8 @@ public class FishService {
                 continue;
             result += nutrientWeight(fdf, nutrient);
         }
-        Race race = fish.getRace();
-        result = result % raceService.need(race, nutrient);
+        Species species = fish.getSpecies();
+        result = result % speciesService.need(species, nutrient);
 
         return result;
     }
@@ -115,7 +115,7 @@ public class FishService {
 
     public boolean canEat(Fish fish, LocalDateTime today) {
         double weight = weightAt(fish, today);
-        if (weight >= fish.getRace().getMaxWeight()) {
+        if (weight >= fish.getSpecies().getMaxWeight()) {
             return false;
         }
         return true;

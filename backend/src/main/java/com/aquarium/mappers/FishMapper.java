@@ -18,7 +18,7 @@ public class FishMapper {
                 entity.getId(),
                 entity.getName(),
                 entity.getInitialWeight(),
-                raceMapper.toResponse(entity.getRace()),
+                raceMapper.toResponse(entity.getSpecies()),
                 aquariumMapper.toResponse(entity.getAquarium()));
     }
 }

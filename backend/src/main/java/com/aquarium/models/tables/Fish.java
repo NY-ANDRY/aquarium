@@ -26,8 +26,8 @@ public class Fish {
     private double initialWeight;
 
     @ManyToOne
-    @JoinColumn(name = "id_race")
-    private Race race;
+    @JoinColumn(name = "id_species")
+    private Species species;
 
     @ManyToOne
     @JoinColumn(name = "id_aquarium", nullable = true)
@@ -63,12 +63,12 @@ public class Fish {
         this.initialWeight = initialWeight;
     }
 
-    public Race getRace() {
-        return race;
+    public Species getSpecies() {
+        return species;
     }
 
-    public void setRace(Race race) {
-        this.race = race;
+    public void setSpecies(Species species) {
+        this.species = species;
     }
 
     public Aquarium getAquarium() {

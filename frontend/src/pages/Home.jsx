@@ -1,33 +1,18 @@
-import { Link } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
-import { useMutation } from "../hooks/useMutation";
+import { API_URL } from "../lib/const";
+import Period from "../components/periods/Period";
 
 const Home = () => {
-const { data, loading, error } = useFetch("https://jsonplaceholder.typicode.com/posts");
-  const { mutate, loading: mutLoading } = useMutation("https://jsonplaceholder.typicode.com/posts");
-
-  const handleAdd = async () => {
-    try {
-      const newPost = await mutate({ title: "Nouveau post", body: "Contenu ici" });
-      console.log("Post ajouté :", newPost);
-    } catch (err) {
-      console.log("Erreur mutation :", err);
-    }
-  };
+  const { data, loading, error } = useFetch(`${API_URL}/periods`);
 
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>Erreur : {error.message}</p>;
 
   return (
     <div>
-      <button onClick={handleAdd} disabled={mutLoading}>
-        Ajouter un post
-      </button>
-      <ul>
-        {data?.map(post => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
+      {data?.map((period, i) => (
+        <Period key={period.id}>{i}</Period>
+      ))}
     </div>
   );
 };

@@ -2,12 +2,12 @@ package com.aquarium.mappers;
 
 import org.springframework.stereotype.Component;
 import com.aquarium.dto.RaceDTO;
-import com.aquarium.models.tables.Race;
+import com.aquarium.models.tables.Species;
 
 @Component
 public class RaceMapper {
 
-    public RaceDTO toResponse(Race entity) {
+    public RaceDTO toResponse(Species entity) {
         if (entity == null)
             return null;
         return new RaceDTO(

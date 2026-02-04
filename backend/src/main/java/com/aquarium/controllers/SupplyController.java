@@ -17,7 +17,7 @@ import com.aquarium.dto.SupplyDTO;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/supply")
+@RequestMapping("/api/supplies")
 public class SupplyController {
     private final SupplyService service;
     private final SupplyMapper mapper;

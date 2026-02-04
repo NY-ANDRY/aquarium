@@ -11,8 +11,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "t_races")
-public class Race {
+@Table(name = "t_species")
+public class Species {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,10 +32,10 @@ public class Race {
     @Column(name = "increase_capacity")
     private double increaseCapacity;
 
-    @OneToMany(mappedBy = "race")
-    private List<RaceNutrient> raceNutrients;
+    @OneToMany(mappedBy = "species")
+    private List<SpeciesNutrient> speciesNutrients;
 
-    @OneToMany(mappedBy = "race")
+    @OneToMany(mappedBy = "species")
     private List<Fish> fish;
 
     public Long getId() {
@@ -86,12 +86,12 @@ public class Race {
         this.increaseCapacity = increaseCapacity;
     }
 
-    public List<RaceNutrient> getRaceNutrients() {
-        return raceNutrients;
+    public List<SpeciesNutrient> getSpeciesNutrients() {
+        return speciesNutrients;
     }
 
-    public void setRaceNutrients(List<RaceNutrient> raceNutrients) {
-        this.raceNutrients = raceNutrients;
+    public void setSpeciesNutrients(List<SpeciesNutrient> speciesNutrients) {
+        this.speciesNutrients = speciesNutrients;
     }
 
     public List<Fish> getFish() {

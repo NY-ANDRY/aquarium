@@ -10,8 +10,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "t_races_nutrients")
-public class RaceNutrient {
+@Table(name = "t_species_nutrients")
+public class SpeciesNutrient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,8 +20,8 @@ public class RaceNutrient {
     private double need;
 
     @ManyToOne
-    @JoinColumn(name = "id_race")
-    private Race race;
+    @JoinColumn(name = "id_species")
+    private Species species;
 
     @ManyToOne
     @JoinColumn(name = "id_nutrient")
@@ -43,20 +43,20 @@ public class RaceNutrient {
         this.need = need;
     }
 
-    public Race getRace() {
-        return race;
-    }
-
-    public void setRace(Race race) {
-        this.race = race;
-    }
-
     public Nutrient getNutrient() {
         return nutrient;
     }
 
     public void setNutrient(Nutrient nutrient) {
         this.nutrient = nutrient;
+    }
+
+    public Species getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Species species) {
+        this.species = species;
     }
 
 }

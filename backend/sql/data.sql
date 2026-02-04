@@ -4,8 +4,8 @@
 -- t_aliments_nutrients,
 -- t_aliments,
 -- t_fish,
--- t_races_nutrients,
--- t_races,
+-- t_species_nutrients,
+-- t_species,
 -- t_aquariums,
 -- t_periods,
 -- t_nutrients,
@@ -22,7 +22,7 @@
 --     ('aquarium 1', 1),
 --     ('aquarium 2', 1);
 -- INSERT INTO
---     t_races (
+--     t_species (
 --         name,
 --         purchase_price,
 --         sale_price,
@@ -38,14 +38,14 @@
 --     ('proteine'),
 --     ('glucide');
 -- INSERT INTO
---     t_races_nutrients (need, id_race, id_nutrient)
+--     t_species_nutrients (need, id_species, id_nutrient)
 -- VALUES
 --     (0.2, 1, 1),
 --     (0.4, 1, 2),
 --     (0.3, 2, 1),
 --     (0.6, 2, 2);
 -- INSERT INTO
---     t_fish (name, initial_weight, id_race, id_aquarium)
+--     t_fish (name, initial_weight, id_species, id_aquarium)
 -- VALUES
 --     ('carpe 1', 0.1, 1, 1),
 --     ('carpe 2', 0.6, 1, 1),
@@ -80,15 +80,15 @@
 --     (6, 2, 3),
 --     (6, 1, 4),
 --     (6, 2, 5);
---------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
 -- 3 t
 -- TRUNCATE TABLE t_feeds,
 -- t_supplies,
 -- t_aliments_nutrients,
 -- t_aliments,
 -- t_fish,
--- t_races_nutrients,
--- t_races,
+-- t_species_nutrients,
+-- t_species,
 -- t_aquariums,
 -- t_periods,
 -- t_nutrients,
@@ -105,7 +105,7 @@
 --     ('aquarium 1', 1),
 --     ('aquarium 2', 1);
 -- INSERT INTO
---     t_races (
+--     t_species (
 --         name,
 --         purchase_price,
 --         sale_price,
@@ -122,7 +122,7 @@
 --     ('glucide'),
 --     ('glucose');
 -- INSERT INTO
---     t_races_nutrients (need, id_race, id_nutrient)
+--     t_species_nutrients (need, id_species, id_nutrient)
 -- VALUES
 --     (0.2, 1, 1),
 --     (0.4, 1, 2),
@@ -131,7 +131,7 @@
 --     (0.6, 2, 2),
 --     (0.6, 2, 3);
 -- INSERT INTO
---     t_fish (name, initial_weight, id_race, id_aquarium)
+--     t_fish (name, initial_weight, id_species, id_aquarium)
 -- VALUES
 --     ('carpe 1', 0.1, 1, 1),
 --     ('carpe 2', 0.6, 1, 1),
@@ -166,14 +166,14 @@
 --     (6, 2, 3),
 --     (6, 1, 4),
 --     (6, 2, 5);
---------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
 -- TRUNCATE TABLE t_feeds,
 -- t_supplies,
 -- t_aliments_nutrients,
 -- t_aliments,
 -- t_fish,
--- t_races_nutrients,
--- t_races,
+-- t_species_nutrients,
+-- t_species,
 -- t_aquariums,
 -- t_periods,
 -- t_nutrients,
@@ -190,7 +190,7 @@
 --     ('aquarium 1', 1),
 --     ('aquarium 2', 1);
 -- INSERT INTO
---     t_races (
+--     t_species (
 --         name,
 --         purchase_price,
 --         sale_price,
@@ -206,14 +206,14 @@
 --     ('proteine'),
 --     ('glucide');
 -- INSERT INTO
---     t_races_nutrients (need, id_race, id_nutrient)
+--     t_species_nutrients (need, id_species, id_nutrient)
 -- VALUES
 --     (0.2, 1, 1),
 --     (0.4, 1, 2),
 --     (0.3, 2, 1),
 --     (0.7, 2, 2);
 -- INSERT INTO
---     t_fish (name, initial_weight, id_race, id_aquarium)
+--     t_fish (name, initial_weight, id_species, id_aquarium)
 -- VALUES
 --     ('carpe 1', 0.1, 1, 1),
 --     ('carpe 2', 0.6, 1, 1),
@@ -248,15 +248,15 @@
 --     (6, 2, 3),
 --     (6, 1, 4),
 --     (6, 2, 5);
---------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
 -- unique simple
 TRUNCATE TABLE t_feeds,
 t_supplies,
 t_aliments_nutrients,
 t_aliments,
 t_fish,
-t_races_nutrients,
-t_races,
+t_species_nutrients,
+t_species,
 t_aquariums,
 t_periods,
 t_nutrients,
@@ -275,7 +275,7 @@ VALUES
     ('aquarium 1', 1);
 
 INSERT INTO
-    t_races (
+    t_species (
         name,
         purchase_price,
         sale_price,
@@ -292,13 +292,13 @@ VALUES
     ('glucide');
 
 INSERT INTO
-    t_races_nutrients (need, id_race, id_nutrient)
+    t_species_nutrients (need, id_species, id_nutrient)
 VALUES
     (0.2, 1, 1),
     (0.4, 1, 2);
 
 INSERT INTO
-    t_fish (name, initial_weight, id_race, id_aquarium)
+    t_fish (name, initial_weight, id_species, id_aquarium)
 VALUES
     ('carpe 1', 0.1, 1, 1);
 

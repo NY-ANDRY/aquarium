@@ -17,7 +17,7 @@ import com.aquarium.dto.AquariumDTO;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/aquarium")
+@RequestMapping("/api/aquariums")
 public class AquariumController {
     private final AquariumService service;
     private final AquariumMapper mapper;

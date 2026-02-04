@@ -17,7 +17,7 @@ import com.aquarium.dto.PeriodDTO;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/period")
+@RequestMapping("/api/periods")
 public class PeriodController {
     private final PeriodService service;
     private final PeriodMapper mapper;

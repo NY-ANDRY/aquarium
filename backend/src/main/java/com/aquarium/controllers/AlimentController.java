@@ -17,7 +17,7 @@ import com.aquarium.dto.AlimentDTO;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/aliment")
+@RequestMapping("/api/aliments")
 public class AlimentController {
     private final AlimentService service;
     private final AlimentMapper mapper;

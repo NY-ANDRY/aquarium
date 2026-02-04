@@ -10,16 +10,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
-import com.aquarium.services.RaceService;
+import com.aquarium.services.SpeciesService;
 import com.aquarium.mappers.RaceMapper;
 import com.aquarium.dto.RaceDTO;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/race")
-public class RaceController {
-    private final RaceService service;
+@RequestMapping("/api/species")
+public class SpeciesController {
+    private final SpeciesService service;
     private final RaceMapper mapper;
 
     @GetMapping
