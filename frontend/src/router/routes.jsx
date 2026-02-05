@@ -1,16 +1,34 @@
-import Home from '../pages/Home';
+import Periods from '../pages/Periods';
+import Period from '../pages/Period';
+import Aquarium from '../pages/Aquarium';
 import NotFound from '../pages/NotFound';
+import Fish from '../pages/Fish';
 
 const routes = [
   {
     path: "/",
-    component: Home,
+    component: Periods,
     title: "Accueil",
   },
   {
     path: "/home",
-    component: Home,
+    component: Periods,
     title: "Accueil",
+  },
+  {
+    path: "/periods/:id",
+    component: Period,
+    title: "Accueil",
+  },
+  {
+    path: "/aquariums/:id",
+    component: Aquarium,
+    title: "Aquarium",
+  },
+  {
+    path: "/fish/:id",
+    component: Fish,
+    title: "Fish",
   },
   {
     path: "*",

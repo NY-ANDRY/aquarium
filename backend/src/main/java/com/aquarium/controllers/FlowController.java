@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import com.aquarium.services.FlowService;
-import com.aquarium.mappers.FlowMapper;
-import com.aquarium.dto.FlowDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,17 +18,4 @@ import com.aquarium.dto.FlowDTO;
 @RequestMapping("/api/flows")
 public class FlowController {
     private final FlowService service;
-    private final FlowMapper mapper;
-
-    @GetMapping
-    public List<FlowDTO> getAll() {
-        return service.findAll().stream()
-                .map(mapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/{id}")
-    public FlowDTO getById(@PathVariable Long id) {
-        return mapper.toResponse(service.findById(id));
-    }
 }

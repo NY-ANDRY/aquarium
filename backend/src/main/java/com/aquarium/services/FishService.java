@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+
 import com.aquarium.repositories.FishRepository;
 import com.aquarium.models.tables.Fish;
 import com.aquarium.models.tables.FishDailyAliment;
@@ -32,11 +33,23 @@ public class FishService {
     }
 
     public Fish findById(Long id) {
-        return repository.findById(id).orElse(null);
+        Fish result = repository.findById(id).orElse(null);
+        double curWeight = weightTotal(result);
+        result.setCurWeight(curWeight);
+        return result;
     }
 
-    public void processAndLog(FishDailyFeed fdf) {
+    public Fish findByIdAt(Long id, LocalDateTime date) {
+        Fish result = findById(id);
+        result.setCurDatetime(date);
+        double curWeight = weightAt(result, date);
+        result.setCurWeight(curWeight);
+        return result;
+    }
+
+    public void processAndSave(FishDailyFeed fdf) {
         process(fdf);
+        save(fdf);
         logFishDailyFeed(fdf);
     }
 
@@ -57,6 +70,7 @@ public class FishService {
         for (Nutrient nutrient : nutrients) {
             double newNutrientWeight = nutrientWeight(fdf, nutrient);
             double restNutrientWeight = restNutrientWeight(fish, nutrient, datetime);
+            // System.out.println("-- " + restNutrientWeight);
 
             double nutrientWeight = newNutrientWeight + restNutrientWeight;
 
@@ -69,8 +83,6 @@ public class FishService {
         }
 
         fdf.setIncreaseWeight(increase_weight);
-
-        save(fdf);
     }
 
     private void save(FishDailyFeed fdf) {
@@ -86,9 +98,13 @@ public class FishService {
     private double restNutrientWeight(Fish fish, Nutrient nutrient, LocalDateTime datetime) {
         double result = 0;
 
-        List<FishDailyFeed> fdfs = fish.getFishDailyFeeds();
+        // List<FishDailyFeed> fdfs = fish.getFishDailyFeeds();
+        List<FishDailyFeed> fdfs = fishDailyFeedService.findAllOf(fish);
+
+        // System.out.println("-- fdfs size: " + fdfs.size());
 
         for (FishDailyFeed fdf : fdfs) {
+            // System.out.println("-- " + fdf.getDate() + " is after " + datetime);
             if (fdf.getDate().isAfter(datetime))
                 continue;
             result += nutrientWeight(fdf, nutrient);
@@ -119,6 +135,14 @@ public class FishService {
             return false;
         }
         return true;
+    }
+
+    public double weightTotal(Fish fish) {
+        double result = fish.getInitialWeight();
+        LocalDateTime firstDay = fish.getAquarium().getPeriod().getBegin();
+        double incWeight = incWeightBetween(fish, firstDay, LocalDateTime.MAX);
+        result += incWeight;
+        return result;
     }
 
     public double weightAt(Fish fish, LocalDateTime dateTime) {
@@ -169,5 +193,22 @@ public class FishService {
         log.setEndWeight(endWeight);
 
         fishDailyLogService.save(log);
+    }
+
+    public double expense(Fish fish) {
+        double result = 0;
+        Species species = fish.getSpecies();
+        result += fish.getInitialWeight() * species.getPurchasePrice();
+        return result;
+    }
+
+    public double income(Fish fish, LocalDateTime datetime) {
+        double result = 0;
+        Species species = fish.getSpecies();
+
+        double weight = weightAt(fish, datetime);
+        result += species.getSalePrice() * weight;
+
+        return result;
     }
 }

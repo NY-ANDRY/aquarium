@@ -21,6 +21,7 @@ import com.aquarium.models.tables.Supply;
 public class SupplyService {
     private final SupplyRepository repository;
     private final FishService fishService;
+    private final FeedService feedService;
 
     public List<Supply> findAll() {
         return repository.findAll();
@@ -31,13 +32,14 @@ public class SupplyService {
     }
 
     public void shareAndFeed(List<Fish> fish, List<Feed> feeds, LocalDateTime date) {
-        List<FishDailyFeed> fdf = share(fish, feeds, date);
-        for (FishDailyFeed fishDailyFeed : fdf) {
-            fishService.processAndLog(fishDailyFeed);
+        List<FishDailyFeed> fdfs = shareEQ(fish, feeds, date);
+        // shareNoOver(fdfs);
+        for (FishDailyFeed fishDailyFeed : fdfs) {
+            fishService.processAndSave(fishDailyFeed);
         }
     }
 
-    public List<FishDailyFeed> share(List<Fish> fish, List<Feed> feed, LocalDateTime date) {
+    public List<FishDailyFeed> shareEQ(List<Fish> fish, List<Feed> feed, LocalDateTime date) {
         List<FishDailyFeed> result = new ArrayList<FishDailyFeed>();
 
         List<Fish> readyFish = readyFish(fish, date);
@@ -69,6 +71,9 @@ public class SupplyService {
         return result;
     }
 
+    // private void shareNoOver(List<FishDailyFeed> fdfs) {
+    // }
+
     private List<Fish> readyFish(List<Fish> fish, LocalDateTime date) {
         List<Fish> result = new ArrayList<Fish>();
 
@@ -79,6 +84,15 @@ public class SupplyService {
             result.add(f);
         }
 
+        return result;
+    }
+
+    public double expense(Supply supply, LocalDateTime datetime) {
+        double result = 0;
+        List<Feed> feed = supply.getFeeds();
+        for (Feed f : feed) {
+            result += feedService.expense(f);
+        }
         return result;
     }
 }

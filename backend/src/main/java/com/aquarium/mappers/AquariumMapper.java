@@ -1,21 +1,42 @@
 package com.aquarium.mappers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
-import lombok.RequiredArgsConstructor;
-import com.aquarium.dto.AquariumDTO;
+
+import com.aquarium.dto.aquarium.AquariumDTO;
 import com.aquarium.models.tables.Aquarium;
 
 @Component
-@RequiredArgsConstructor
 public class AquariumMapper {
-    private final PeriodMapper periodMapper;
 
-    public AquariumDTO toResponse(Aquarium entity) {
-        if (entity == null)
+    public AquariumDTO toDTO(Aquarium aquarium) {
+        if (aquarium == null) {
             return null;
+        }
         return new AquariumDTO(
-                entity.getId(),
-                entity.getName(),
-                periodMapper.toResponse(entity.getPeriod()));
+                aquarium.getId(),
+                aquarium.getName(),
+                aquarium.getFish().size());
+    }
+
+    public Aquarium toEntity(AquariumDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        Aquarium aquarium = new Aquarium();
+        aquarium.setId(dto.id());
+        aquarium.setName(dto.name());
+        return aquarium;
+    }
+
+    public List<AquariumDTO> toDTOList(List<Aquarium> aquariums) {
+        if (aquariums == null) {
+            return null;
+        }
+        return aquariums.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 }

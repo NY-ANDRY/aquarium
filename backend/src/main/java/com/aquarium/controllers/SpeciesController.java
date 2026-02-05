@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import com.aquarium.services.SpeciesService;
-import com.aquarium.mappers.RaceMapper;
-import com.aquarium.dto.RaceDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,17 +18,4 @@ import com.aquarium.dto.RaceDTO;
 @RequestMapping("/api/species")
 public class SpeciesController {
     private final SpeciesService service;
-    private final RaceMapper mapper;
-
-    @GetMapping
-    public List<RaceDTO> getAll() {
-        return service.findAll().stream()
-                .map(mapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/{id}")
-    public RaceDTO getById(@PathVariable Long id) {
-        return mapper.toResponse(service.findById(id));
-    }
 }

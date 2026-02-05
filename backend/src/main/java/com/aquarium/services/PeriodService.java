@@ -20,6 +20,7 @@ import com.aquarium.repositories.PeriodRepository;
 public class PeriodService {
     private final PeriodRepository repository;
     private final SupplyService supplyService;
+    private final AquariumService aquariumService;
     // private int test = 0;
 
     public List<Period> findAll() {
@@ -28,6 +29,10 @@ public class PeriodService {
 
     public Period findById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public Period save(Period period) {
+        return repository.save(period);
     }
 
     public void process(Period p, LocalDateTime end_datetime) {
@@ -41,6 +46,9 @@ public class PeriodService {
             processDay(p, curDateTime);
             curDateTime = curDateTime.plusDays(1);
         }
+
+        p.setEnd(end_datetime);
+        save(p);
     }
 
     public void processDay(Period p, LocalDateTime datetime) {
@@ -72,5 +80,40 @@ public class PeriodService {
         }
 
         return new ArrayList<Feed>();
+    }
+
+    public double benefit(Period period, LocalDateTime datetime) {
+        return expense(period, datetime) - benefit(period, datetime);
+    }
+
+    public double expense(Period period, LocalDateTime datetime) {
+        double result = 0;
+        List<Aquarium> aquariums = period.getAquariums();
+        for (Aquarium aquarium : aquariums) {
+            result += aquariumService.expense(aquarium, datetime);
+        }
+        return result;
+    }
+
+    public double income(Period period, LocalDateTime datetime) {
+        double result = 0;
+        LocalDateTime endDate = null;
+
+        if (datetime == null) {
+            endDate = period.getEnd();
+        } else {
+            endDate = datetime;
+        }
+
+        if (endDate == null) {
+            return result;
+        }
+
+        List<Aquarium> aquariums = period.getAquariums();
+        for (Aquarium aquarium : aquariums) {
+            result += aquariumService.income(aquarium, endDate);
+        }
+
+        return result;
     }
 }

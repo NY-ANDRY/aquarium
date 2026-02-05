@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Header = ({ }) => {
     return (
-        <header className="h-14 flex items-center justify-between px-6">
+        <header className="flex-1 h-14 flex items-center justify-between px-0">
             <Link to="/">
                 <h1 className="font-poppins-b text-2xl text-neutral-900">AQUARIUM</h1>
             </Link>

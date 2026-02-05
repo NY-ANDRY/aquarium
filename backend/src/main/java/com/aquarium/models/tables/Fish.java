@@ -1,5 +1,6 @@
 package com.aquarium.models.tables;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "t_fish")
@@ -38,6 +40,12 @@ public class Fish {
 
     @OneToMany(mappedBy = "fish")
     private List<FishDailyLog> fishDailylogs;
+
+    @Transient
+    private LocalDateTime curDatetime;
+
+    @Transient
+    private double curWeight;
 
     public Long getId() {
         return id;
@@ -85,6 +93,30 @@ public class Fish {
 
     public void setFishDailyFeeds(List<FishDailyFeed> fishDailyFeeds) {
         this.fishDailyFeeds = fishDailyFeeds;
+    }
+
+    public List<FishDailyLog> getFishDailylogs() {
+        return fishDailylogs;
+    }
+
+    public void setFishDailylogs(List<FishDailyLog> fishDailylogs) {
+        this.fishDailylogs = fishDailylogs;
+    }
+
+    public LocalDateTime getCurDatetime() {
+        return curDatetime;
+    }
+
+    public void setCurDatetime(LocalDateTime datetime) {
+        this.curDatetime = datetime;
+    }
+
+    public double getCurWeight() {
+        return curWeight;
+    }
+
+    public void setCurWeight(double curWeight) {
+        this.curWeight = curWeight;
     }
 
 }

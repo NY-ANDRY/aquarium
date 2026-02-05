@@ -10,7 +10,7 @@ const Transition = ({ children }) => {
         duration: 0.2,
         ease: "easeInOut",
       }}
-      className="h-full"
+      className="h-full w-full flex-1"
     >
       {children}
     </motion.div>

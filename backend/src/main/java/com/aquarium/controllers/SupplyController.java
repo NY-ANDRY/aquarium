@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import com.aquarium.services.SupplyService;
-import com.aquarium.mappers.SupplyMapper;
-import com.aquarium.dto.SupplyDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,17 +18,4 @@ import com.aquarium.dto.SupplyDTO;
 @RequestMapping("/api/supplies")
 public class SupplyController {
     private final SupplyService service;
-    private final SupplyMapper mapper;
-
-    @GetMapping
-    public List<SupplyDTO> getAll() {
-        return service.findAll().stream()
-                .map(mapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/{id}")
-    public SupplyDTO getById(@PathVariable Long id) {
-        return mapper.toResponse(service.findById(id));
-    }
 }

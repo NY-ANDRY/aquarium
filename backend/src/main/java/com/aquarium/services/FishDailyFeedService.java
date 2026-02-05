@@ -6,6 +6,7 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import com.aquarium.repositories.FishDailyFeedRepository;
+import com.aquarium.models.tables.Fish;
 import com.aquarium.models.tables.FishDailyFeed;
 
 @Service
@@ -23,5 +24,9 @@ public class FishDailyFeedService {
 
     public FishDailyFeed save(FishDailyFeed fdf) {
         return repository.save(fdf);
+    }
+
+    public List<FishDailyFeed> findAllOf(Fish f) {
+        return repository.findByFishId(f.getId());
     }
 }

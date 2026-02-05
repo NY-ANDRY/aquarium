@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import com.aquarium.services.AlimentService;
-import com.aquarium.mappers.AlimentMapper;
-import com.aquarium.dto.AlimentDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,17 +18,6 @@ import com.aquarium.dto.AlimentDTO;
 @RequestMapping("/api/aliments")
 public class AlimentController {
     private final AlimentService service;
-    private final AlimentMapper mapper;
 
-    @GetMapping
-    public List<AlimentDTO> getAll() {
-        return service.findAll().stream()
-                .map(mapper::toResponse)
-                .collect(Collectors.toList());
-    }
 
-    @GetMapping("/{id}")
-    public AlimentDTO getById(@PathVariable Long id) {
-        return mapper.toResponse(service.findById(id));
-    }
 }
