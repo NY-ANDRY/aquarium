@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.aquarium.dto.fish.FishDailyAlimentDTO;
 import com.aquarium.dto.fish.FishDailyNutrientTotalDTO;
-import com.aquarium.models.logics.NutrientQtt;
+import com.aquarium.models.helpers.NutrientQtt;
 import com.aquarium.models.tables.FishDailyFeed;
 import com.aquarium.services.FishDailyFeedService;
 

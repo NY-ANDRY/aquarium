@@ -1,4 +1,4 @@
-package com.aquarium.models.logics;
+package com.aquarium.models.helpers;
 
 import java.math.BigDecimal;
 

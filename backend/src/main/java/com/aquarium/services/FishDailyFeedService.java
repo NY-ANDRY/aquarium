@@ -11,7 +11,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 import com.aquarium.repositories.FishDailyFeedRepository;
-import com.aquarium.models.logics.NutrientQtt;
+import com.aquarium.models.helpers.NutrientQtt;
 import com.aquarium.models.tables.Fish;
 import com.aquarium.models.tables.FishDailyAliment;
 import com.aquarium.models.tables.FishDailyFeed;

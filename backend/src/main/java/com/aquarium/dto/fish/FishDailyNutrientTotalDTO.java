@@ -15,7 +15,7 @@ public record FishDailyNutrientTotalDTO(
                 BigDecimal subWeight,
                 BigDecimal weightInc) {
 
-        public static FishDailyNutrientTotalDTO fromLogic(com.aquarium.models.logics.NutrientQtt nq) {
+        public static FishDailyNutrientTotalDTO fromLogic(com.aquarium.models.helpers.NutrientQtt nq) {
                 if (nq == null) {
                         return null;
                 }
@@ -25,7 +25,7 @@ public record FishDailyNutrientTotalDTO(
                                 nq.getWeightInc());
         }
 
-        public static List<FishDailyNutrientTotalDTO> toDTOList(List<com.aquarium.models.logics.NutrientQtt> nqs) {
+        public static List<FishDailyNutrientTotalDTO> toDTOList(List<com.aquarium.models.helpers.NutrientQtt> nqs) {
                 if (nqs == null) {
                         return List.of();
                 }
