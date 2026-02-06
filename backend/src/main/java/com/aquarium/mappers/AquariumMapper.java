@@ -39,4 +39,5 @@ public class AquariumMapper {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
+    
 }

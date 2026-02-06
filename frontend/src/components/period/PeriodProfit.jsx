@@ -2,28 +2,26 @@ import { usePeriodContext } from "./PeriodContext";
 import { useLazyFetch } from "../../hooks/useHttpRequest";
 import { API_URL } from "../../lib/const";
 import { useEffect, useState } from "react";
+import { DayPicker } from "react-day-picker";
+import { datePicktoDate } from "../../lib/utils";
 
 const PeriodProfit = ({ }) => {
     const { idPeriod, period, summary, loadingSummary: loading, errorSummary: error } = usePeriodContext();
 
     const { data: dataSimul, loading: loadSimul, error: errorSimul, fetchData } = useLazyFetch(`${API_URL}/periods/${idPeriod}/summary`);
 
-    const [simulDate, setSimulDate] = useState("");
+    const [date, setDate] = useState("");
 
     const handleSimul = async () => {
-        if (!simulDate) return;
-
+        if (!date) return;
         await fetchData({
-            date: simulDate
+            date: datePicktoDate(date)
         });
     };
 
     useEffect(() => {
         handleSimul();
-    }, [simulDate])
-
-    // if (loading) return <p>Chargement...</p>;
-    // if (error) return <p>Erreur : {error.message}</p>;
+    }, [date])
 
     return (
         <div className="flex flex-col">
@@ -44,20 +42,13 @@ const PeriodProfit = ({ }) => {
                 </div>
             </div>
             {period?.end && (
-                <div className="flex items-center justify-end gap-2 pt-4">
-                    <input
-                        type="date"
-                        className="input input-sm w-48"
-                        value={simulDate}
-                        onChange={(e) => setSimulDate(e.target.value)}
-                    />
-                    {/* <button
-                    className="btn btn-sm btn-neutral"
-                    onClick={handleSimul}
-                    disabled={loadSimul}
-                    >
-                    test
-                    </button> */}
+                <div className="flex items-center gap-2 pt-4">
+                    <button popoverTarget="rdp-popover" className="input input-border input-sm w-66" style={{ anchorName: "--rdp" }}>
+                        {date ? date.toLocaleDateString() : "Pick a date"}
+                    </button>
+                    <div popover="auto" id="rdp-popover" className="dropdown" style={{ positionAnchor: "--rdp" }}>
+                        <DayPicker className="react-day-picker" mode="single" selected={date} onSelect={setDate} />
+                    </div>
                 </div>
             )}
             {

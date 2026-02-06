@@ -6,6 +6,7 @@ const FishContext = createContext();
 
 export const FishProvider = ({ children, idFish }) => {
     const { data: fish, loading: loadingFish, error: errorFish, refetch: refetchFish } = useFetch(`${API_URL}/fish/${idFish}`);
+    const { data: fdfs, loading: loadingFdfs, error: errorFdfs, refetch: refetchFdfs } = useFetch(`${API_URL}/fish/${idFish}/dailyFeeds`);
 
     const reloadAll = useCallback(() => {
         refetchFish();
@@ -17,6 +18,10 @@ export const FishProvider = ({ children, idFish }) => {
         loadingFish,
         errorFish,
         refetchFish,
+        fdfs,
+        loadingFdfs,
+        errorFdfs,
+        refetchFdfs,
         reloadAll
     };
 

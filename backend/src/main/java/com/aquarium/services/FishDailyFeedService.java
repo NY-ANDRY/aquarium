@@ -2,17 +2,29 @@ package com.aquarium.services;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+
 import com.aquarium.repositories.FishDailyFeedRepository;
+import com.aquarium.models.logics.NutrientQtt;
 import com.aquarium.models.tables.Fish;
+import com.aquarium.models.tables.FishDailyAliment;
 import com.aquarium.models.tables.FishDailyFeed;
+import com.aquarium.models.tables.FishDailyNutrient;
+import com.aquarium.models.tables.Nutrient;
+import com.aquarium.models.tables.Species;
 
 @Service
 @RequiredArgsConstructor
 public class FishDailyFeedService {
     private final FishDailyFeedRepository repository;
+    private final FishDailyAlimentService fishDailyAlimentService;
+    private final SpeciesService speciesService;
 
     public List<FishDailyFeed> findAll() {
         return repository.findAll();
@@ -23,10 +35,111 @@ public class FishDailyFeedService {
     }
 
     public FishDailyFeed save(FishDailyFeed fdf) {
-        return repository.save(fdf);
+        FishDailyFeed result = repository.save(fdf);
+        for (FishDailyAliment fda : fdf.getFishDailyAliments()) {
+            fishDailyAlimentService.save(fda);
+        }
+        return result;
     }
 
     public List<FishDailyFeed> findAllOf(Fish f) {
         return repository.findByFishId(f.getId());
+    }
+
+    public List<FishDailyFeed> betweenOf(Fish fish, LocalDateTime date1, LocalDateTime date2) {
+        return repository.findByFishIdBetween(fish.getId(), date1, date2);
+    }
+
+    public double nutrientWeight(FishDailyFeed fdf, Nutrient nutrient) {
+        double result = 0;
+
+        for (FishDailyAliment fda : fdf.getFishDailyAliments()) {
+            for (FishDailyNutrient fdn : fda.getFishDailyNutrient()) {
+                if (fdn.getNutrient().equals(nutrient)) {
+                    result += fdn.getQtt();
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public double restNutrientWeight(Fish fish, Nutrient nutrient, LocalDateTime datetime) {
+        // double result = 0;
+        // Species species = fish.getSpecies();
+
+        // List<FishDailyFeed> fdfs = findAllOf(fish);
+
+        // for (FishDailyFeed fdf : fdfs) {
+        // if (!fdf.getDate().isBefore(datetime))
+        // continue;
+        // result += nutrientWeight(fdf, nutrient);
+        // }
+
+        // System.out.println(result + " % " + speciesService.need(species, nutrient) +
+        // " + "
+        // + result % speciesService.need(species, nutrient));
+        // result = result % speciesService.need(species, nutrient);
+
+        // BigDecimal bigValue = new BigDecimal(result);
+        // result = bigValue.setScale(3, RoundingMode.HALF_UP).doubleValue();
+
+        // return result;
+
+        Species species = fish.getSpecies();
+        List<FishDailyFeed> fdfs = findAllOf(fish);
+
+        BigDecimal result = BigDecimal.ZERO;
+
+        for (FishDailyFeed fdf : fdfs) {
+            if (!fdf.getDate().isBefore(datetime))
+                continue;
+
+            result = result.add(
+                    BigDecimal.valueOf(nutrientWeight(fdf, nutrient)));
+        }
+
+        BigDecimal need = BigDecimal.valueOf(speciesService.need(species, nutrient));
+
+        result = result.remainder(need).setScale(3, RoundingMode.HALF_UP);
+
+        return result.doubleValue();
+    }
+
+    public List<NutrientQtt> nutrientsQtt(FishDailyFeed fdf) {
+        List<NutrientQtt> result = new ArrayList<NutrientQtt>();
+        Fish fish = fdf.getFish();
+        Species species = fish.getSpecies();
+
+        List<Nutrient> nutrients = speciesService.usedNutrients(species);
+        LocalDateTime datetime = fdf.getDate();
+
+        double subIncWeight = species.getIncreaseCapacity() / nutrients.size();
+
+        for (Nutrient nutrient : nutrients) {
+            NutrientQtt nq = new NutrientQtt();
+            nq.setNutrient(nutrient);
+
+            double cur = nutrientWeight(fdf, nutrient);
+            double rest = restNutrientWeight(fish, nutrient, datetime);
+            double qtt = cur + rest;
+
+            double need = speciesService.need(species, nutrient);
+            double subQttDouble = qtt / need;
+            int subQtt = (int) Math.floor(subQttDouble);
+
+            nq.setRaceNeed(need);
+            nq.setSubNb(subQtt);
+            nq.setSubWeight(subIncWeight);
+            nq.setWeightInc(subQtt * subIncWeight);
+
+            nq.setCur(cur);
+            nq.setRest(rest);
+            nq.setQtt(qtt);
+
+            result.add(nq);
+        }
+
+        return result;
     }
 }

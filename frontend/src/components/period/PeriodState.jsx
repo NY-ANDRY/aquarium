@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useMutation } from "../../hooks/useHttpRequest";
 import { API_URL } from "../../lib/const";
 import { usePeriodContext } from "./PeriodContext";
+import { DayPicker } from "react-day-picker";
+import { datePicktoDate } from "../../lib/utils";
 
 const PeriodState = ({ }) => {
     const { idPeriod, period, loadingPeriod, errorPeriod, reloadAll } = usePeriodContext();
@@ -11,7 +13,6 @@ const PeriodState = ({ }) => {
         error: errorMutation
     } = useMutation(`${API_URL}/periods/${idPeriod}/end`);
 
-    
 
     const [endDate, setEndDate] = useState("");
 
@@ -20,7 +21,7 @@ const PeriodState = ({ }) => {
 
         await mutateState({
             id: idPeriod,
-            end: endDate
+            end: datePicktoDate(endDate)
         });
 
         reloadAll();
@@ -49,12 +50,12 @@ const PeriodState = ({ }) => {
 
             {!period?.end && (
                 <div className="flex items-center gap-2">
-                    <input
-                        type="date"
-                        className="input input-sm w-48"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                    />
+                    <button popoverTarget="rdp-popover" className="input input-border input-sm w-48" style={{ anchorName: "--rdp" }}>
+                        {endDate ? endDate.toLocaleDateString() : "Pick a endDate"}
+                    </button>
+                    <div popover="auto" id="rdp-popover" className="dropdown" style={{ positionAnchor: "--rdp" }}>
+                        <DayPicker className="react-day-picker" mode="single" selected={endDate} onSelect={setEndDate} />
+                    </div>
                     <button
                         className="btn btn-sm btn-neutral"
                         onClick={handleEnd}

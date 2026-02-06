@@ -23,6 +23,9 @@ public class FishDailyFeed {
     @Column(name = "increase_weight")
     private double increaseWeight;
 
+    @Column(name = "cur_weight")
+    private double curWeight;
+
     @ManyToOne
     @JoinColumn(name = "id_fish")
     private Fish fish;
@@ -71,6 +74,14 @@ public class FishDailyFeed {
 
     public void setFishDailyAliments(List<FishDailyAliment> fishDailyAliments) {
         this.fishDailyAliments = fishDailyAliments;
+    }
+
+    public double getCurWeight() {
+        return curWeight;
+    }
+
+    public void setCurWeight(double curWeight) {
+        this.curWeight = curWeight;
     }
 
 }

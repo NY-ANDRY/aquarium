@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import lombok.RequiredArgsConstructor;
 
 import com.aquarium.dto.fish.FishDTO;
+import com.aquarium.dto.fish.FishDailyFeedDTO;
 import com.aquarium.mappers.FishMapper;
 import com.aquarium.models.tables.Fish;
 import com.aquarium.services.FishService;
@@ -40,17 +42,9 @@ public class FishController {
         return fishMapper.toDTO(f);
     }
 
-    @GetMapping("/{id}/story")
-    public FishDTO getOneLog(@PathVariable Long id,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        Fish f = null;
-
-        if (date != null) {
-            f = fishService.findByIdAt(id, date.atStartOfDay());
-        } else {
-            f = fishService.findById(id);
-        }
-
-        return fishMapper.toDTO(f);
+    @GetMapping("/{id}/dailyFeeds")
+    public List<FishDailyFeedDTO> getHitory(@PathVariable Long id) {
+        Fish f = fishService.findById(id);
+        return fishMapper.dailyFeedsToDTO(f.getFishDailyFeeds());
     }
 }

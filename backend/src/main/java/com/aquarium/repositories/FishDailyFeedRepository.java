@@ -1,5 +1,6 @@
 package com.aquarium.repositories;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,8 @@ import com.aquarium.models.tables.FishDailyFeed;
 public interface FishDailyFeedRepository extends JpaRepository<FishDailyFeed, Long> {
     @Query("SELECT fdf FROM FishDailyFeed fdf WHERE fdf.fish.id = :fishId")
     List<FishDailyFeed> findByFishId(@Param("fishId") Long fishId);
+
+    @Query("SELECT fdf FROM FishDailyFeed fdf WHERE fdf.fish.id = :fishId AND (fdf.date BETWEEN :date1 AND :date2)")
+    List<FishDailyFeed> findByFishIdBetween(@Param("fishId") Long fishId, @Param("date1") LocalDateTime date1,
+            @Param("date2") LocalDateTime date2);
 }

@@ -38,9 +38,6 @@ public class Fish {
     @OneToMany(mappedBy = "fish")
     private List<FishDailyFeed> fishDailyFeeds;
 
-    @OneToMany(mappedBy = "fish")
-    private List<FishDailyLog> fishDailylogs;
-
     @Transient
     private LocalDateTime curDatetime;
 
@@ -93,14 +90,6 @@ public class Fish {
 
     public void setFishDailyFeeds(List<FishDailyFeed> fishDailyFeeds) {
         this.fishDailyFeeds = fishDailyFeeds;
-    }
-
-    public List<FishDailyLog> getFishDailylogs() {
-        return fishDailylogs;
-    }
-
-    public void setFishDailylogs(List<FishDailyLog> fishDailylogs) {
-        this.fishDailylogs = fishDailylogs;
     }
 
     public LocalDateTime getCurDatetime() {
