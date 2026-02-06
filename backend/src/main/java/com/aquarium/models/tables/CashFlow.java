@@ -1,5 +1,7 @@
 package com.aquarium.models.tables;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,8 +18,8 @@ public class CashFlow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "value")
-    private double value;
+    @Column(name = "value", precision = 20, scale = 10)
+    private BigDecimal value;
 
     @ManyToOne
     @JoinColumn(name = "id_period")
@@ -35,11 +37,11 @@ public class CashFlow {
         this.id = id;
     }
 
-    public double getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(BigDecimal value) {
         this.value = value;
     }
 

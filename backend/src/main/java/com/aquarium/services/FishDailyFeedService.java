@@ -50,13 +50,13 @@ public class FishDailyFeedService {
         return repository.findByFishIdBetween(fish.getId(), date1, date2);
     }
 
-    public double nutrientWeight(FishDailyFeed fdf, Nutrient nutrient) {
-        double result = 0;
+    public BigDecimal nutrientWeight(FishDailyFeed fdf, Nutrient nutrient) {
+        BigDecimal result = BigDecimal.ZERO;
 
         for (FishDailyAliment fda : fdf.getFishDailyAliments()) {
             for (FishDailyNutrient fdn : fda.getFishDailyNutrient()) {
                 if (fdn.getNutrient().equals(nutrient)) {
-                    result += fdn.getQtt();
+                    result = result.add(fdn.getQtt());
                 }
             }
         }
@@ -64,28 +64,7 @@ public class FishDailyFeedService {
         return result;
     }
 
-    public double restNutrientWeight(Fish fish, Nutrient nutrient, LocalDateTime datetime) {
-        // double result = 0;
-        // Species species = fish.getSpecies();
-
-        // List<FishDailyFeed> fdfs = findAllOf(fish);
-
-        // for (FishDailyFeed fdf : fdfs) {
-        // if (!fdf.getDate().isBefore(datetime))
-        // continue;
-        // result += nutrientWeight(fdf, nutrient);
-        // }
-
-        // System.out.println(result + " % " + speciesService.need(species, nutrient) +
-        // " + "
-        // + result % speciesService.need(species, nutrient));
-        // result = result % speciesService.need(species, nutrient);
-
-        // BigDecimal bigValue = new BigDecimal(result);
-        // result = bigValue.setScale(3, RoundingMode.HALF_UP).doubleValue();
-
-        // return result;
-
+    public BigDecimal restNutrientWeight(Fish fish, Nutrient nutrient, LocalDateTime datetime) {
         Species species = fish.getSpecies();
         List<FishDailyFeed> fdfs = findAllOf(fish);
 
@@ -95,15 +74,14 @@ public class FishDailyFeedService {
             if (!fdf.getDate().isBefore(datetime))
                 continue;
 
-            result = result.add(
-                    BigDecimal.valueOf(nutrientWeight(fdf, nutrient)));
+            result = result.add(nutrientWeight(fdf, nutrient));
         }
 
-        BigDecimal need = BigDecimal.valueOf(speciesService.need(species, nutrient));
+        BigDecimal need = speciesService.need(species, nutrient);
 
         result = result.remainder(need).setScale(3, RoundingMode.HALF_UP);
 
-        return result.doubleValue();
+        return result;
     }
 
     public List<NutrientQtt> nutrientsQtt(FishDailyFeed fdf) {
@@ -114,24 +92,25 @@ public class FishDailyFeedService {
         List<Nutrient> nutrients = speciesService.usedNutrients(species);
         LocalDateTime datetime = fdf.getDate();
 
-        double subIncWeight = species.getIncreaseCapacity() / nutrients.size();
+        BigDecimal subIncWeight = species.getIncreaseCapacity().divide(BigDecimal.valueOf(nutrients.size()));
 
         for (Nutrient nutrient : nutrients) {
             NutrientQtt nq = new NutrientQtt();
             nq.setNutrient(nutrient);
 
-            double cur = nutrientWeight(fdf, nutrient);
-            double rest = restNutrientWeight(fish, nutrient, datetime);
-            double qtt = cur + rest;
+            BigDecimal cur = nutrientWeight(fdf, nutrient);
+            BigDecimal rest = restNutrientWeight(fish, nutrient, datetime);
+            BigDecimal qtt = cur.add(rest);
 
-            double need = speciesService.need(species, nutrient);
-            double subQttDouble = qtt / need;
-            int subQtt = (int) Math.floor(subQttDouble);
+            BigDecimal need = speciesService.need(species, nutrient);
+            BigDecimal subQttDouble = qtt.divide(need);
+            // int subQtt = (int) Math.floor(subQttDouble);
+            BigDecimal subQtt = subQttDouble.setScale(0, RoundingMode.FLOOR);
 
             nq.setRaceNeed(need);
             nq.setSubNb(subQtt);
             nq.setSubWeight(subIncWeight);
-            nq.setWeightInc(subQtt * subIncWeight);
+            nq.setWeightInc(subIncWeight.multiply(subQtt));
 
             nq.setCur(cur);
             nq.setRest(rest);

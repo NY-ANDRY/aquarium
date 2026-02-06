@@ -2,6 +2,7 @@ package com.aquarium.services;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,12 @@ public class SpeciesService {
         return species.getSpeciesNutrients().stream().map(el -> el.getNutrient()).toList();
     }
 
-    public double need(Species species, Nutrient Nutrient) {
+    public BigDecimal need(Species species, Nutrient Nutrient) {
         for (SpeciesNutrient rn : species.getSpeciesNutrients()) {
             if (rn.getNutrient().equals(Nutrient)) {
                 return rn.getNeed();
             }
         }
-        return 0;
+        return BigDecimal.ZERO;
     }
 }

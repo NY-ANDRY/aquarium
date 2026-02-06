@@ -1,6 +1,10 @@
 package com.aquarium.models.tables;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,22 +24,24 @@ public class Species {
     @Column(name = "name", nullable = true)
     private String name;
 
-    @Column(name = "purchase_price")
-    private double purchasePrice;
+    @Column(name = "purchase_price", precision = 20, scale = 10)
+    private BigDecimal purchasePrice;
 
-    @Column(name = "sale_price")
-    private double salePrice;
+    @Column(name = "sale_price", precision = 20, scale = 10)
+    private BigDecimal salePrice;
 
-    @Column(name = "max_weight")
-    private double maxWeight;
+    @Column(name = "max_weight", precision = 20, scale = 10)
+    private BigDecimal maxWeight;
 
-    @Column(name = "increase_capacity")
-    private double increaseCapacity;
+    @Column(name = "increase_capacity", precision = 20, scale = 10)
+    private BigDecimal increaseCapacity;
 
     @OneToMany(mappedBy = "species")
+    @JsonManagedReference
     private List<SpeciesNutrient> speciesNutrients;
 
     @OneToMany(mappedBy = "species")
+    @JsonBackReference
     private List<Fish> fish;
 
     public Long getId() {
@@ -54,35 +60,35 @@ public class Species {
         this.name = name;
     }
 
-    public double getPurchasePrice() {
+    public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(double purchasePrice) {
+    public void setPurchasePrice(BigDecimal purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
-    public double getSalePrice() {
+    public BigDecimal getSalePrice() {
         return salePrice;
     }
 
-    public void setSalePrice(double salePrice) {
+    public void setSalePrice(BigDecimal salePrice) {
         this.salePrice = salePrice;
     }
 
-    public double getMaxWeight() {
+    public BigDecimal getMaxWeight() {
         return maxWeight;
     }
 
-    public void setMaxWeight(double maxWeight) {
+    public void setMaxWeight(BigDecimal maxWeight) {
         this.maxWeight = maxWeight;
     }
 
-    public double getIncreaseCapacity() {
+    public BigDecimal getIncreaseCapacity() {
         return increaseCapacity;
     }
 
-    public void setIncreaseCapacity(double increaseCapacity) {
+    public void setIncreaseCapacity(BigDecimal increaseCapacity) {
         this.increaseCapacity = increaseCapacity;
     }
 

@@ -2,6 +2,8 @@ package com.aquarium.models.tables;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,9 +26,11 @@ public class Nutrient {
     private String img;
 
     @OneToMany(mappedBy = "nutrient")
+    @JsonIgnore
     private List<AlimentNutrient> alimentNutrients;
 
     @OneToMany(mappedBy = "nutrient")
+    @JsonIgnore
     private List<SpeciesNutrient> speciesNutrients;
 
     public Long getId() {

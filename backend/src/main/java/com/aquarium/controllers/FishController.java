@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 
 import com.aquarium.dto.fish.FishDTO;
 import com.aquarium.dto.fish.FishDailyFeedDTO;
-import com.aquarium.mappers.FishMapper;
 import com.aquarium.models.tables.Fish;
 import com.aquarium.services.FishService;
 
@@ -26,7 +25,6 @@ import com.aquarium.services.FishService;
 @RequestMapping("/api/fish")
 public class FishController {
     private final FishService fishService;
-    private final FishMapper fishMapper;
 
     @GetMapping("/{id}")
     public FishDTO getOne(@PathVariable Long id,
@@ -39,12 +37,12 @@ public class FishController {
             f = fishService.findById(id);
         }
 
-        return fishMapper.toDTO(f);
+        return FishDTO.fromEntity(f);
     }
 
     @GetMapping("/{id}/dailyFeeds")
     public List<FishDailyFeedDTO> getHitory(@PathVariable Long id) {
         Fish f = fishService.findById(id);
-        return fishMapper.dailyFeedsToDTO(f.getFishDailyFeeds());
+        return FishDailyFeedDTO.toDTOList(f.getFishDailyFeeds());
     }
 }

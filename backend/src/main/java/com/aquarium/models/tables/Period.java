@@ -3,6 +3,8 @@ package com.aquarium.models.tables;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class Period {
     private LocalDateTime end;
 
     @OneToMany(mappedBy = "period")
+    @JsonIgnore
     private List<Aquarium> aquariums;
 
     public Long getId() {

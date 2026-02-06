@@ -4,12 +4,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import com.aquarium.models.tables.Supply;
 import com.aquarium.services.SupplyService;
 
 @RestController
@@ -18,4 +17,9 @@ import com.aquarium.services.SupplyService;
 @RequestMapping("/api/supplies")
 public class SupplyController {
     private final SupplyService service;
+
+    @GetMapping
+    public List<Supply> getAll() {
+        return service.findAll();
+    }
 }

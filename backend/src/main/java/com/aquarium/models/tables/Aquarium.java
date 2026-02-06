@@ -2,6 +2,9 @@ package com.aquarium.models.tables;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,9 +30,11 @@ public class Aquarium {
     private Period period;
 
     @OneToMany(mappedBy = "aquarium")
+    @JsonBackReference
     private List<Fish> fish;
 
     @OneToMany(mappedBy = "aquarium")
+    @JsonManagedReference
     private List<Supply> supplies;
 
     public Long getId() {

@@ -1,12 +1,12 @@
 package com.aquarium.dto.fish;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 public record FishSpeciesDTO(
                 Long id,
                 String name,
-                double increaseCapacity,
-                double maxWeight,
-                double purchasePrice,
-                double salePrice) {
+                BigDecimal increaseCapacity,
+                BigDecimal maxWeight,
+                BigDecimal purchasePrice,
+                BigDecimal salePrice) {
 }

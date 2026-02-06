@@ -9,6 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "t_feeds")
 public class Feed {
@@ -16,8 +20,8 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "qtt")
-    private double qtt;
+    @Column(name = "qtt", precision = 20, scale = 10)
+    private BigDecimal qtt;
 
     @ManyToOne
     @JoinColumn(name = "id_aliment")
@@ -25,6 +29,7 @@ public class Feed {
 
     @ManyToOne
     @JoinColumn(name = "id_supply")
+    @JsonBackReference
     private Supply supply;
 
     public Long getId() {
@@ -35,11 +40,11 @@ public class Feed {
         this.id = id;
     }
 
-    public double getQtt() {
+    public BigDecimal getQtt() {
         return qtt;
     }
 
-    public void setQtt(double qtt) {
+    public void setQtt(BigDecimal qtt) {
         this.qtt = qtt;
     }
 

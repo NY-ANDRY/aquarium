@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import lombok.RequiredArgsConstructor;
 
-import com.aquarium.mappers.FishMapper;
 import com.aquarium.services.FishDailyFeedService;
 import com.aquarium.services.FishService;
 
@@ -17,7 +16,6 @@ import com.aquarium.services.FishService;
 @RequestMapping("/api/feed")
 public class FeedController {
     private final FishService fishService;
-    private final FishMapper fishMapper;
     private final FishDailyFeedService fishDailyFeedService;
 
     // @GetMapping("/{id}/nutrients")

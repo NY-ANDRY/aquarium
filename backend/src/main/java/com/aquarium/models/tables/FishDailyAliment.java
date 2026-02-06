@@ -1,6 +1,10 @@
 package com.aquarium.models.tables;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,14 +27,16 @@ public class FishDailyAliment {
     @JoinColumn(name = "id_aliment")
     private Aliment aliment;
 
-    @Column(name = "qtt")
-    private double qtt;
+    @Column(name = "qtt", precision = 20, scale = 10)
+    private BigDecimal qtt;
 
     @ManyToOne
     @JoinColumn(name = "id_fish_daily_feed")
+    @JsonBackReference
     private FishDailyFeed fishDailyFeed;
 
     @OneToMany(mappedBy = "fishDailyAliment")
+    @JsonManagedReference
     private List<FishDailyNutrient> fishDailyNutrient;
 
     public Long getId() {
@@ -41,11 +47,11 @@ public class FishDailyAliment {
         this.id = id;
     }
 
-    public double getQtt() {
+    public BigDecimal getQtt() {
         return qtt;
     }
 
-    public void setQtt(double qtt) {
+    public void setQtt(BigDecimal qtt) {
         this.qtt = qtt;
     }
 

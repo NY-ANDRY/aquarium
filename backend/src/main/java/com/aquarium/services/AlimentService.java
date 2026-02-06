@@ -2,6 +2,7 @@ package com.aquarium.services;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class AlimentService {
             fdn.setFishDailyAliment(fda);
             fdn.setNutrient(nutrient);
 
-            double intake = intake(aliment, nutrient);
-            double nutrientQtt = intake * fda.getQtt();
+            BigDecimal intake = intake(aliment, nutrient);
+            BigDecimal nutrientQtt = intake.multiply(fda.getQtt());
 
             fdn.setQtt(nutrientQtt);
             result.add(fdn);
@@ -47,13 +48,13 @@ public class AlimentService {
         fda.setFishDailyNutrient(result);
     }
 
-    public double intake(Aliment aliment, Nutrient Nutrient) {
+    public BigDecimal intake(Aliment aliment, Nutrient Nutrient) {
         for (AlimentNutrient an : aliment.getAlimentNutrients()) {
             if (an.getNutrient().equals(Nutrient)) {
                 return an.getIntake();
             }
         }
-        return 0;
+        return BigDecimal.ZERO;
     }
 
     public List<Nutrient> usedNutrients(Aliment aliment) {

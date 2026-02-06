@@ -1,7 +1,10 @@
 package com.aquarium.models.tables;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,11 +23,11 @@ public class FishDailyFeed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "increase_weight")
-    private double increaseWeight;
+    @Column(name = "increase_weight", precision = 20, scale = 10)
+    private BigDecimal increaseWeight;
 
-    @Column(name = "cur_weight")
-    private double curWeight;
+    @Column(name = "cur_weight", precision = 20, scale = 10)
+    private BigDecimal curWeight;
 
     @ManyToOne
     @JoinColumn(name = "id_fish")
@@ -34,6 +37,7 @@ public class FishDailyFeed {
     private LocalDateTime date;
 
     @OneToMany(mappedBy = "fishDailyFeed")
+    @JsonManagedReference
     private List<FishDailyAliment> fishDailyAliments;
 
     public Long getId() {
@@ -44,11 +48,11 @@ public class FishDailyFeed {
         this.id = id;
     }
 
-    public double getIncreaseWeight() {
+    public BigDecimal getIncreaseWeight() {
         return increaseWeight;
     }
 
-    public void setIncreaseWeight(double increaseWeight) {
+    public void setIncreaseWeight(BigDecimal increaseWeight) {
         this.increaseWeight = increaseWeight;
     }
 
@@ -76,11 +80,11 @@ public class FishDailyFeed {
         this.fishDailyAliments = fishDailyAliments;
     }
 
-    public double getCurWeight() {
+    public BigDecimal getCurWeight() {
         return curWeight;
     }
 
-    public void setCurWeight(double curWeight) {
+    public void setCurWeight(BigDecimal curWeight) {
         this.curWeight = curWeight;
     }
 

@@ -2,6 +2,7 @@ package com.aquarium.services;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,10 +45,10 @@ public class SupplyService {
 
         List<Fish> readyFish = readyFish(fish, date);
 
-        Map<Feed, Double> feedQtt = new HashMap<Feed, Double>();
+        Map<Feed, BigDecimal> feedQtt = new HashMap<Feed, BigDecimal>();
 
         for (Feed f : feed) {
-            double individualAmount = f.getQtt() / readyFish.size();
+            BigDecimal individualAmount = f.getQtt().divide(BigDecimal.valueOf(readyFish.size()));
             feedQtt.putIfAbsent(f, individualAmount);
         }
 
@@ -87,11 +88,11 @@ public class SupplyService {
         return result;
     }
 
-    public double expense(Supply supply, LocalDateTime datetime) {
-        double result = 0;
+    public BigDecimal expense(Supply supply, LocalDateTime datetime) {
+        BigDecimal result = BigDecimal.ZERO;
         List<Feed> feed = supply.getFeeds();
         for (Feed f : feed) {
-            result += feedService.expense(f);
+            result = result.add(feedService.expense(f));
         }
         return result;
     }

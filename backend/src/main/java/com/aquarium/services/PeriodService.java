@@ -1,5 +1,6 @@
 package com.aquarium.services;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -82,21 +83,21 @@ public class PeriodService {
         return new ArrayList<Feed>();
     }
 
-    public double benefit(Period period, LocalDateTime datetime) {
-        return expense(period, datetime) - benefit(period, datetime);
+    public BigDecimal benefit(Period period, LocalDateTime datetime) {
+        return income(period, datetime).subtract(expense(period, datetime));
     }
 
-    public double expense(Period period, LocalDateTime datetime) {
-        double result = 0;
+    public BigDecimal expense(Period period, LocalDateTime datetime) {
+        BigDecimal result = BigDecimal.ZERO;
         List<Aquarium> aquariums = period.getAquariums();
         for (Aquarium aquarium : aquariums) {
-            result += aquariumService.expense(aquarium, datetime);
+            result = result.add(aquariumService.expense(aquarium, datetime));
         }
         return result;
     }
 
-    public double income(Period period, LocalDateTime datetime) {
-        double result = 0;
+    public BigDecimal income(Period period, LocalDateTime datetime) {
+        BigDecimal result = BigDecimal.ZERO;
         LocalDateTime endDate = null;
 
         if (datetime == null) {
@@ -111,7 +112,7 @@ public class PeriodService {
 
         List<Aquarium> aquariums = period.getAquariums();
         for (Aquarium aquarium : aquariums) {
-            result += aquariumService.income(aquarium, endDate);
+            result = result.add(aquariumService.income(aquarium, endDate));
         }
 
         return result;

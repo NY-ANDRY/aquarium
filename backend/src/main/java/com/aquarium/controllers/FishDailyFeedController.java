@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 
 import com.aquarium.dto.fish.FishDailyAlimentDTO;
 import com.aquarium.dto.fish.FishDailyNutrientTotalDTO;
-import com.aquarium.mappers.FishMapper;
 import com.aquarium.models.logics.NutrientQtt;
 import com.aquarium.models.tables.FishDailyFeed;
 import com.aquarium.services.FishDailyFeedService;
@@ -23,18 +22,17 @@ import com.aquarium.services.FishDailyFeedService;
 @RequestMapping("/api/fdfs")
 public class FishDailyFeedController {
     private final FishDailyFeedService fishDailyFeedService;
-    private final FishMapper fishMapper;
 
     @GetMapping("/{id}/aliments")
     public List<FishDailyAlimentDTO> getAliments(@PathVariable Long id) {
         FishDailyFeed fdf = fishDailyFeedService.findById(id);
-        return fishMapper.toAlimentDTOs(fdf.getFishDailyAliments());
+        return FishDailyAlimentDTO.toDTOList(fdf.getFishDailyAliments());
     }
 
     @GetMapping("/{id}/nutrients")
     public List<FishDailyNutrientTotalDTO> getNutrients(@PathVariable Long id) {
         FishDailyFeed fdf = fishDailyFeedService.findById(id);
         List<NutrientQtt> nutrientsQtts = fishDailyFeedService.nutrientsQtt(fdf);
-        return fishMapper.toNutrientQttDTOs(nutrientsQtts);
+        return FishDailyNutrientTotalDTO.toDTOList(nutrientsQtts);
     }
 }

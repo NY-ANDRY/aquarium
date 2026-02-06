@@ -2,6 +2,7 @@ package com.aquarium.services;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,10 @@ public class FeedService {
         return repository.save(feed);
     }
 
-    public double expense(Feed feed) {
-        double result = 0;
+    public BigDecimal expense(Feed feed) {
+        BigDecimal result = BigDecimal.ZERO;
         Aliment aliment = feed.getAliment();
-        result += aliment.getCost() * feed.getQtt();
+        result = result.add(aliment.getCost().multiply(feed.getQtt()));
         return result;
     }
 }

@@ -1,6 +1,9 @@
 package com.aquarium.models.tables;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,10 +23,11 @@ public class Aliment {
     @Column(name = "name", nullable = true)
     private String name;
 
-    @Column(name = "cost")
-    private double cost;
+    @Column(name = "cost", precision = 20, scale = 10)
+    private BigDecimal cost;
 
     @OneToMany(mappedBy = "aliment")
+    @JsonManagedReference
     private List<AlimentNutrient> alimentNutrients;
 
     public Long getId() {
@@ -42,11 +46,11 @@ public class Aliment {
         this.name = name;
     }
 
-    public double getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 

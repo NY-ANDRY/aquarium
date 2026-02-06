@@ -1,6 +1,5 @@
 import { useFetch } from "../../hooks/useHttpRequest";
 import { API_URL } from "../../lib/const";
-import FishDailyNutrient from "./FishDailyNutrient";
 import { unit } from "../../lib/const";
 
 const FishDailyNutrientTotal = ({ id_fdf }) => {

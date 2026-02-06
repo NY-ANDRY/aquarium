@@ -4,12 +4,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import com.aquarium.models.tables.Aliment;
 import com.aquarium.services.AlimentService;
 
 @RestController
@@ -19,5 +18,9 @@ import com.aquarium.services.AlimentService;
 public class AlimentController {
     private final AlimentService service;
 
+    @GetMapping
+    public List<Aliment> getAll() {
+        return service.findAll();
+    }
 
 }

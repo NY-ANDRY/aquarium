@@ -7,6 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,11 +20,12 @@ public class SpeciesNutrient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "need")
-    private double need;
+    @Column(name = "need", precision = 20, scale = 10)
+    private BigDecimal need;
 
     @ManyToOne
     @JoinColumn(name = "id_species")
+    @JsonBackReference
     private Species species;
 
     @ManyToOne
@@ -35,11 +40,11 @@ public class SpeciesNutrient {
         this.id = id;
     }
 
-    public double getNeed() {
+    public BigDecimal getNeed() {
         return need;
     }
 
-    public void setNeed(double need) {
+    public void setNeed(BigDecimal need) {
         this.need = need;
     }
 

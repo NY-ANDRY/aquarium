@@ -2,6 +2,7 @@ package com.aquarium.services;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,13 +27,13 @@ public class AquariumService {
         return repository.findById(id).orElse(null);
     }
 
-    public double expense(Aquarium aquarium, LocalDateTime datetime) {
-        double result = 0;
+    public BigDecimal expense(Aquarium aquarium, LocalDateTime datetime) {
+        BigDecimal result = BigDecimal.ZERO;
 
         List<Fish> fish = aquarium.getFish();
 
         for (Fish f : fish) {
-            result += fishService.expense(f);
+            result = result.add(fishService.expense(f));
         }
 
         List<Supply> supplies = aquarium.getSupplies();
@@ -41,19 +42,19 @@ public class AquariumService {
             if (datetime != null && supply.getEnd().isAfter(datetime)) {
                 continue;
             }
-            result += supplyService.expense(supply, datetime);
+            result = result.add(supplyService.expense(supply, datetime));
         }
 
         return result;
     }
 
-    public double income(Aquarium aquarium, LocalDateTime datetime) {
-        double result = 0;
+    public BigDecimal income(Aquarium aquarium, LocalDateTime datetime) {
+        BigDecimal result = BigDecimal.ZERO;
 
         List<Fish> fish = aquarium.getFish();
 
         for (Fish f : fish) {
-            result += fishService.income(f, datetime);
+            result = result.add(fishService.income(f, datetime));
         }
 
         return result;

@@ -1,19 +1,21 @@
 package com.aquarium.models.logics;
 
+import java.math.BigDecimal;
+
 import com.aquarium.models.tables.Fish;
 import com.aquarium.models.tables.Nutrient;
 
 public class NutrientQtt {
     private Fish fish;
     private Nutrient nutrient;
-    private double qtt;
-    private double cur;
-    private double rest;
+    private BigDecimal qtt;
+    private BigDecimal cur;
+    private BigDecimal rest;
 
-    private double raceNeed;
-    private int subNb;
-    private double subWeight;
-    private double weightInc;
+    private BigDecimal raceNeed;
+    private BigDecimal subNb;
+    private BigDecimal subWeight;
+    private BigDecimal weightInc;
 
     public Nutrient getNutrient() {
         return nutrient;
@@ -23,27 +25,27 @@ public class NutrientQtt {
         this.nutrient = nutrient;
     }
 
-    public double getQtt() {
+    public BigDecimal getQtt() {
         return qtt;
     }
 
-    public void setQtt(double qtt) {
+    public void setQtt(BigDecimal qtt) {
         this.qtt = qtt;
     }
 
-    public double getRest() {
+    public BigDecimal getRest() {
         return rest;
     }
 
-    public void setRest(double rest) {
+    public void setRest(BigDecimal rest) {
         this.rest = rest;
     }
 
-    public double getCur() {
+    public BigDecimal getCur() {
         return cur;
     }
 
-    public void setCur(double cur) {
+    public void setCur(BigDecimal cur) {
         this.cur = cur;
     }
 
@@ -55,35 +57,35 @@ public class NutrientQtt {
         this.fish = fish;
     }
 
-    public int getSubNb() {
+    public BigDecimal getSubNb() {
         return subNb;
     }
 
-    public void setSubNb(int subNb) {
+    public void setSubNb(BigDecimal subNb) {
         this.subNb = subNb;
     }
 
-    public double getSubWeight() {
+    public BigDecimal getSubWeight() {
         return subWeight;
     }
 
-    public void setSubWeight(double unitInc) {
+    public void setSubWeight(BigDecimal unitInc) {
         this.subWeight = unitInc;
     }
 
-    public double getWeightInc() {
+    public BigDecimal getWeightInc() {
         return weightInc;
     }
 
-    public void setWeightInc(double weightInc) {
+    public void setWeightInc(BigDecimal weightInc) {
         this.weightInc = weightInc;
     }
 
-    public double getRaceNeed() {
+    public BigDecimal getRaceNeed() {
         return raceNeed;
     }
 
-    public void setRaceNeed(double raceNeed) {
+    public void setRaceNeed(BigDecimal raceNeed) {
         this.raceNeed = raceNeed;
     }
 

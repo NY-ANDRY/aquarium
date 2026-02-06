@@ -2,6 +2,8 @@ package com.aquarium.services;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class FishService {
 
     public Fish findById(Long id) {
         Fish result = repository.findById(id).orElse(null);
-        double curWeight = weightTotal(result);
+        BigDecimal curWeight = weightTotal(result);
         result.setCurWeight(curWeight);
         return result;
     }
@@ -37,7 +39,7 @@ public class FishService {
     public Fish findByIdAt(Long id, LocalDateTime date) {
         Fish result = findById(id);
         result.setCurDatetime(date);
-        double curWeight = weightAt(result, date);
+        BigDecimal curWeight = weightAt(result, date);
         result.setCurWeight(curWeight);
         return result;
     }
@@ -59,40 +61,41 @@ public class FishService {
         LocalDateTime datetime = fdf.getDate();
 
         List<Nutrient> nutrients = speciesService.usedNutrients(species);
-        double subIncWeight = species.getIncreaseCapacity() / nutrients.size();
-        double increase_weight = 0;
+        BigDecimal subIncWeight = species.getIncreaseCapacity().divide(BigDecimal.valueOf(nutrients.size()));
+        BigDecimal increase_weight = BigDecimal.ZERO;
 
-        double curWeight = weightTotal(fish);
-        double max_weight = species.getMaxWeight();
-        double max_increase = max_weight - curWeight;
+        BigDecimal curWeight = weightTotal(fish);
+        BigDecimal max_weight = species.getMaxWeight();
+        BigDecimal max_increase = max_weight.subtract(curWeight);
 
         for (Nutrient nutrient : nutrients) {
-            double newNutrientWeight = fishDailyFeedService.nutrientWeight(fdf, nutrient);
-            double restNutrientWeight = fishDailyFeedService.restNutrientWeight(fish, nutrient, datetime);
+            BigDecimal newNutrientWeight = fishDailyFeedService.nutrientWeight(fdf, nutrient);
+            BigDecimal restNutrientWeight = fishDailyFeedService.restNutrientWeight(fish, nutrient, datetime);
 
-            double nutrientWeight = newNutrientWeight + restNutrientWeight;
-            double need = speciesService.need(species, nutrient);
+            BigDecimal nutrientWeight = newNutrientWeight.add(restNutrientWeight);
+            BigDecimal need = speciesService.need(species, nutrient);
 
-            double subQttDouble = nutrientWeight / need;
-            int subQtt = (int) Math.floor(subQttDouble);
+            BigDecimal subQttDouble = nutrientWeight.divide(need);
+            BigDecimal subQtt = subQttDouble.setScale(0, RoundingMode.FLOOR);
 
-            double weightValue = subIncWeight * subQtt;
+            BigDecimal weightValue = subIncWeight.multiply(subQtt);
 
-            increase_weight += weightValue;
-            if (increase_weight >= max_increase) {
+            increase_weight = increase_weight.add(weightValue);
+            if (increase_weight.compareTo(max_increase) >= 0) {
                 increase_weight = max_increase;
                 break;
             }
         }
 
-        curWeight = curWeight + increase_weight;
+        curWeight = curWeight.add(increase_weight);
         fdf.setCurWeight(curWeight);
         fdf.setIncreaseWeight(increase_weight);
     }
 
-    // private double restNutrientWeight(Fish fish, Nutrient nutrient, LocalDateTime
+    // private BigDecimal restNutrientWeight(Fish fish, Nutrient nutrient,
+    // LocalDateTime
     // datetime) {
-    // double result = 0;
+    // BigDecimal result = 0;
 
     // List<FishDailyFeed> fdfs = fishDailyFeedService.findAllOf(fish);
 
@@ -107,8 +110,8 @@ public class FishService {
     // return result;
     // }
 
-    // public double nutrientWeight(FishDailyFeed fdf, Nutrient nutrient) {
-    // double result = 0;
+    // public BigDecimal nutrientWeight(FishDailyFeed fdf, Nutrient nutrient) {
+    // BigDecimal result = 0;
 
     // for (FishDailyAliment fda : fdf.getFishDailyAliments()) {
     // for (FishDailyNutrient fdn : fda.getFishDailyNutrient()) {
@@ -122,45 +125,45 @@ public class FishService {
     // }
 
     public boolean canEat(Fish fish, LocalDateTime today) {
-        double weight = weightAt(fish, today);
-        if (weight >= fish.getSpecies().getMaxWeight()) {
+        BigDecimal weight = weightAt(fish, today);
+        if (weight.compareTo(fish.getSpecies().getMaxWeight()) >= 0) {
             return false;
         }
         return true;
     }
 
-    public double weightTotal(Fish fish) {
-        double result = fish.getInitialWeight();
-        double incWeight = incWeightTotal(fish);
-        result += incWeight;
+    public BigDecimal weightTotal(Fish fish) {
+        BigDecimal result = fish.getInitialWeight();
+        BigDecimal incWeight = incWeightTotal(fish);
+        result = result.add(incWeight);
         return result;
     }
 
-    public double weightAt(Fish fish, LocalDateTime dateTime) {
-        double result = fish.getInitialWeight();
+    public BigDecimal weightAt(Fish fish, LocalDateTime dateTime) {
+        BigDecimal result = fish.getInitialWeight();
         LocalDateTime firstDay = fish.getAquarium().getPeriod().getBegin();
-        double incWeight = incWeightBetween(fish, firstDay, dateTime);
-        result += incWeight;
+        BigDecimal incWeight = incWeightBetween(fish, firstDay, dateTime);
+        result = result.add(incWeight);
         return result;
     }
 
-    public double incWeightTotal(Fish fish) {
-        double result = 0;
+    public BigDecimal incWeightTotal(Fish fish) {
+        BigDecimal result = BigDecimal.ZERO;
         List<FishDailyFeed> fdfs = fishDailyFeedService.findAllOf(fish);
 
         for (FishDailyFeed fishDailyFeed : fdfs) {
-            result += fishDailyFeed.getIncreaseWeight();
+            result = result.add(fishDailyFeed.getIncreaseWeight());
         }
 
         return result;
     }
 
-    public double incWeightBetween(Fish fish, LocalDateTime date1, LocalDateTime date2) {
-        double result = 0;
+    public BigDecimal incWeightBetween(Fish fish, LocalDateTime date1, LocalDateTime date2) {
+        BigDecimal result = BigDecimal.ZERO;
         List<FishDailyFeed> fdfs = fishDailyFeedService.betweenOf(fish, date1, date2);
 
         for (FishDailyFeed fishDailyFeed : fdfs) {
-            result += fishDailyFeed.getIncreaseWeight();
+            result = result.add(fishDailyFeed.getIncreaseWeight());
         }
 
         return result;
@@ -179,19 +182,19 @@ public class FishService {
         return result;
     }
 
-    public double expense(Fish fish) {
-        double result = 0;
+    public BigDecimal expense(Fish fish) {
+        BigDecimal result = BigDecimal.ZERO;
         Species species = fish.getSpecies();
-        result += fish.getInitialWeight() * species.getPurchasePrice();
+        result = result.add(fish.getInitialWeight().multiply(species.getPurchasePrice()));
         return result;
     }
 
-    public double income(Fish fish, LocalDateTime datetime) {
-        double result = 0;
+    public BigDecimal income(Fish fish, LocalDateTime datetime) {
+        BigDecimal result = BigDecimal.ZERO;
         Species species = fish.getSpecies();
 
-        double weight = weightAt(fish, datetime);
-        result += species.getSalePrice() * weight;
+        BigDecimal weight = weightAt(fish, datetime);
+        result = result.add(species.getSalePrice().multiply(weight));
 
         return result;
     }

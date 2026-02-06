@@ -3,6 +3,9 @@ package com.aquarium.models.tables;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,9 +31,11 @@ public class Supply {
 
     @ManyToOne
     @JoinColumn(name = "id_aquarium")
+    @JsonBackReference
     private Aquarium aquarium;
 
     @OneToMany(mappedBy = "supply")
+    @JsonManagedReference
     private List<Feed> feeds;
 
     public Long getId() {
